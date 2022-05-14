@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Rainbow test case</string>
+    <string name="app_name">Rainbow</string>
+    <string name="cd_back">Back</string>
 </resources>
