@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.nikanorov.rainbowtestcase.R
 import com.nikanorov.rainbowtestcase.ui.theme.photoPreviewBackgroundColor
@@ -17,25 +16,25 @@ import com.nikanorov.rainbowtestcase.ui.theme.photoPreviewBackgroundColor
 @Composable
 fun PhotoDetailScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
-    photoUrl: String
+    photoUrl: String,
+    onGoHome: () -> Unit,
 ) {
-    PhotoDetailContent(photoUrl = photoUrl, modifier = modifier, navController = navController)
+    PhotoDetailContent(photoUrl = photoUrl, modifier = modifier, onGoHome = onGoHome)
 }
 
 @Composable
 fun PhotoDetailContent(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
-    photoUrl: String
+    photoUrl: String,
+    onGoHome: () -> Unit,
 ) {
-    //maybe better just use Column?
+    //maybe better just use Column for back button only?
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
+                    IconButton(onClick = onGoHome) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.cd_back),

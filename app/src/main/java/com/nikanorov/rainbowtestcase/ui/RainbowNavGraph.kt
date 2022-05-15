@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import java.net.URLEncoder
 
 @Composable
 fun RainbowNavGraph(
@@ -29,9 +30,20 @@ fun RainbowNavGraph(
 
             val photosViewModel: PhotosViewModel = hiltViewModel()
             val uiState = photosViewModel.uiState.collectAsState()
+
             PhotosListScreen(
-                navController = navController,
                 uiState = uiState,
+                //отправим просто url в параметрах, чтоб не усложнять, в идеале конечно так делать не стоит.
+                onOpenPhoto = {
+                    navController.navigate(
+                        "photoUrl/${
+                            URLEncoder.encode(
+                                it,
+                                "UTF-8"
+                            )
+                        }"
+                    )
+                }
             )
         }
         //отдельный экран с фото
@@ -44,7 +56,7 @@ fun RainbowNavGraph(
             photoUrl?.let { url ->
                 PhotoDetailScreen(
                     photoUrl = url,
-                    navController = navController
+                    onGoHome = { navController.navigateUp() }
                 )
             }
         }
@@ -54,7 +66,7 @@ fun RainbowNavGraph(
 }
 
 @Composable
-fun ShowSystemBar(systemBarsVisible: Boolean = true){
+fun ShowSystemBar(systemBarsVisible: Boolean = true) {
     val systemUiController = rememberSystemUiController()
     systemUiController.apply {
         isSystemBarsVisible = systemBarsVisible
